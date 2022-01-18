@@ -1,7 +1,7 @@
 {
-  "name": "fs-app-template",
-  "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "name": "shopify-backend-challenge",
+  "version": "3.0.0",
+  "description": "Building a basic CRUD application for shopify backend coding challenge",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
