@@ -5,6 +5,7 @@ const GET_PRODUCTS = "GET_PRODUCTS"
 const DELETE_PRODUCT = "DELETE_PRODUCT"
 const ADD_PRODUCT = "ADD_PRODUCT"
 const UPDATE_PRODUCT = "UPDATE_PRODUCT"
+const GET_SINGLE_PRODUCT = "GET_SINGLE_PRODUCT"
 
 const getAllProducts = data => {
     return {
@@ -33,6 +34,7 @@ const updateProduct = data => {
         product: data
     }
 }
+
 export const fetchAllProducts = () => async dispatch => {
     try {
         const { data } = await axios.get(`/api/products`)
@@ -41,6 +43,7 @@ export const fetchAllProducts = () => async dispatch => {
         console.log(e)
     }
 }
+
 
 export const fetchCreateProduct = product => async dispatch => {
     try {
