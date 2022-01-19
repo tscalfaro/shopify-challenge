@@ -4,7 +4,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import {
     fetchSingleProduct,
-    fetchDeleteProduct
+    fetchDeleteProduct,
+    fetchUpdatedProduct
 } from '../store/selectedProducts'
 import { connect } from "react-redux";
 
@@ -13,6 +14,8 @@ class SelectedProduct extends React.Component  {
     constructor(){
         super()
         this.handleDelete = this.handleDelete.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -20,8 +23,28 @@ class SelectedProduct extends React.Component  {
         this.props.fetchSingleProduct(this.props.match.params.id)
     }
   
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+       console.log(this.state)
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        const editedProduct = {
+            name: this.state.name,
+            quantity: this.state.quantity,
+            description: this.state.description,
+            id: this.props.match.params.id
+        }
+        await this.props.fetchUpdatedProduct(editedProduct)
+        this.props.history.push(`/products/${editedProduct.id}`, this.state)
+        console.log(editedProduct)
+    }
+
     async handleDelete() {
-        console.log(this.props.product.id)
+        
         this.props.fetchDeleteProduct(this.props.product)
         this.props.history.push('/products', this.state)
     }
@@ -41,23 +64,35 @@ class SelectedProduct extends React.Component  {
         <p id="itemNumber">itemNumber: {id}</p>
         <button onClick= {this.handleDelete} >DELETE PRODUCT</button>
         </div>
+
         <hr></hr>
         <hr></hr>
+
         <div>
             <h3>Edit Product</h3>
-            <form>
+            <form onSubmit={this.handleSubmit}>
+
                 <div>
                     <label>
                         <small>New Name</small>
                     </label>
-                    <input name="Name" type="text" className="input" />
+                    <input name="name" type="text" className="input" onChange={this.handleChange}/>
                 </div>
+
                 <div>
                     <label>
                         <small>Quantity</small>
                     </label>
-                    <input name="Quantity" value={quantity} type="text" className="input" />
+                    <input name="quantity" type="number" className="input" onChange={this.handleChange}/>
                 </div>
+
+                <div>
+                    <label>
+                        <small>Description</small>
+                    </label>
+                    <input name="description" type="text" className="input" onChange={this.handleChange}/>
+                </div>
+
                 <button>SUBMIT</button>
             </form>
         </div>
@@ -76,7 +111,8 @@ class SelectedProduct extends React.Component  {
   const mapDispatch = dispatch => {
       return {
           fetchSingleProduct: id => dispatch(fetchSingleProduct(id)),
-          fetchDeleteProduct: product => dispatch(fetchDeleteProduct(product))
+          fetchDeleteProduct: product => dispatch(fetchDeleteProduct(product)),
+          fetchUpdatedProduct: product => dispatch(fetchUpdatedProduct(product))
       }
   }
   
