@@ -21,19 +21,7 @@ const addProduct = data => {
     }
 }
 
-const deleteProduct = id => {
-    return {
-        type: DELETE_PRODUCT,
-        id: id
-    }
-}
 
-const updateProduct = data => {
-    return {
-        type: UPDATE_PRODUCT,
-        product: data
-    }
-}
 
 export const fetchAllProducts = () => async dispatch => {
     try {
@@ -55,13 +43,7 @@ export const fetchCreateProduct = product => async dispatch => {
     }
 }
 
-export const fetchDeleteProduct = id => async dispatch => {
-    try {
-        const prodToBeDeleted = await axios.get(`/api/products/${id}`)
-    } catch (e) {
-        console.log(e)
-    }
-}
+
 
 const reducer = (state = [], action) => {
     switch (action.type) {
@@ -69,18 +51,6 @@ const reducer = (state = [], action) => {
             return action.products;
         case ADD_PRODUCT:
             return action.product;
-        case UPDATE_PRODUCT:{ 
-          {
-            let newState = [...state];
-            newState = newState.filter(product => {
-              return product.id !== action.product.id;
-            });
-            newState.push(action.product);
-            return newState;
-          }
-        }
-        case DELETE_PRODUCT:
-            return action.id
         default:
             return state;
     }

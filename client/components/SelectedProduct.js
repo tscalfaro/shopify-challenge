@@ -31,7 +31,8 @@ class SelectedProduct extends React.Component  {
     }
 
     async handleSubmit(event) {
-        event.preventDefault();
+        // event.preventDefault();
+        alert('Submitting product information for update.')
         const editedProduct = {
             name: this.state.name,
             quantity: this.state.quantity,
@@ -44,9 +45,11 @@ class SelectedProduct extends React.Component  {
     }
 
     async handleDelete() {
+        if (window.confirm(`ARE YOU SURE YOU WISH TO DELETE THIS PRODUCT, ${this.props.product.name}?`)){
+            this.props.fetchDeleteProduct(this.props.product)
+            this.props.history.push('/products', this.state)
+        }
         
-        this.props.fetchDeleteProduct(this.props.product)
-        this.props.history.push('/products', this.state)
     }
 
    render() {
@@ -93,7 +96,7 @@ class SelectedProduct extends React.Component  {
                     <input name="description" type="text" className="input" onChange={this.handleChange}/>
                 </div>
 
-                <button>SUBMIT</button>
+                <button type="submit">SUBMIT</button>
             </form>
         </div>
 
